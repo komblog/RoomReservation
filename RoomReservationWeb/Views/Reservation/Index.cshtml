@@ -1,0 +1,39 @@
+﻿@model IEnumerable<TblTReservasi>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center"><i class="far fa-calendar-alt text-success"></i>Meeting Room Reservation</h1>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nama Ruangan</th>
+            <th scope="col">Subject reservasi</th>
+            <th scope="col">Tanggal Reservasi</th>
+            <th scope="col">Jam Mulai</th>
+            <th scope="col">Jam Selesai</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var number = 1;
+        }
+        @foreach (var item in Model)
+        {
+            var ruangan = @item.RuanganFkNavigation;
+            <tr>
+                <th scope="row">@number</th>
+                <td>@ruangan</td>
+                <td>@item.SubjectReservasi</td>
+                <td>@item.TanggalReservasi</td>
+                <td>@item.JamMulai</td>
+                <td>@item.JamSelesai</td>
+                <td></td>
+            </tr>
+            number++;
+        }
+    </tbody>
+</table>
+
