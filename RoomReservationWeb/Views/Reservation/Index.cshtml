@@ -1,13 +1,13 @@
-﻿@model IEnumerable<TblTReservasi>
-@{
-    ViewData["Title"] = "Index";
-}
-
+﻿
 <h1 class="text-center"><i class="far fa-calendar-alt text-success"></i>Meeting Room Reservation</h1>
-<table class="table table-hover">
+<a onclick="showInputModal('@Url.Action("AddOrEdit", "Reservation")', 'New Reservation')" class="btn btn-success text-white"><i class="fas fa-random"></i> Create New Reservation</a>
+
+<br />
+<br />
+
+<table id="table-reservation" class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">Nama Ruangan</th>
             <th scope="col">Subject reservasi</th>
             <th scope="col">Tanggal Reservasi</th>
@@ -17,23 +17,49 @@
         </tr>
     </thead>
     <tbody>
-        @{
-            var number = 1;
-        }
-        @foreach (var item in Model)
-        {
-            var ruangan = @item.RuanganFkNavigation;
-            <tr>
-                <th scope="row">@number</th>
-                <td>@ruangan</td>
-                <td>@item.SubjectReservasi</td>
-                <td>@item.TanggalReservasi</td>
-                <td>@item.JamMulai</td>
-                <td>@item.JamSelesai</td>
-                <td></td>
-            </tr>
-            number++;
-        }
     </tbody>
 </table>
 
+<script src="/lib/jquery/dist/jquery.min.js"></script>
+<script charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#table-reservation').DataTable({
+            ajax: {
+                url: '/Reservation/Reservations',
+                dataSrc: 'data',
+                type: 'GET',
+                datatype: 'JSON'
+            },
+            columns: [
+                { data: 'namaRuangan' },
+                { data: 'subjectReservasi' },
+                {
+                    data: 'tanggalReservasi',
+                    render: function(data, type) {
+                        var dateSplit = data.substring(0, 10).split('-');
+                        return type === "display" || type === "filter" ?
+                            dateSplit[2] +'-'+ dateSplit[1] +'-'+ dateSplit[0] :
+                            data;
+                    }
+                },
+                { data: 'jamMulai' },
+                { data: 'jamSelesai' },
+                {
+                    data: 'idReservasi',
+                    render: function (data) {
+                        return "<a class='btn btn-info text-white class='d-inline'' onclick=showInputModal('@Url.Action("AddOrEdit", "Reservation")?IdReservasi="+data+"')><i class='fas fa-pencil-alt'></i> Edit</a>" +
+                               "<form action='@Url.Action("Delete", "Reservation")?IdReservasi="+data+"' onsubmit='return DeleteReservation(this);' class='d-inline' method='post'> <input type='submit' value='Delete' class='btn btn-danger'/></form>";
+                    }
+                }
+            ],
+            columnDefs: [
+                {
+                    orderable: false,
+                    targets: 5
+                }
+            ]
+        });
+
+    });
+</script>

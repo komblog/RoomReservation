@@ -1,0 +1,41 @@
+﻿@*@using RoomReservationWeb.Dto
+@model List<ListReservationDto>*@
+
+<table id="table-reservation" class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Nama Ruangan</th>
+            <th scope="col">Subject reservasi</th>
+            <th scope="col">Tanggal Reservasi</th>
+            <th scope="col">Jam Mulai</th>
+            <th scope="col">Jam Selesai</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @*@{
+            var number = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@number</th>
+                <td>@item.NamaRuangan</td>
+                <td>@item.SubjectReservasi</td>
+                @{
+                    var tanggal = @item.TanggalReservasi.Value.ToString("dd/MM/yyyy");
+                }
+                <td>@tanggal</td>
+                <td>@item.JamMulai</td>
+                <td>@item.JamSelesai</td>
+                <td>
+                    <a onclick="showInputModal('@Url.Action("AddOrEdit", "Reservation", new {IdReservasi = @item.IdReservasi}, Context.Request.Scheme)', 'Edit Reservation')" class="btn btn-info text-white"><i class="fas fa-pencil-alt"></i> Edit</a>
+                    <form asp-action="Delete" asp-route-idReservasi="@item.IdReservasi" onsubmit="return DeleteReservation(this);" class="d-inline">
+                        <input type="submit" value="Delete" class="btn btn-danger"/>
+                    </form>
+                </td>
+            </tr>
+            number++;
+        }*@
+    </tbody>
+</table>

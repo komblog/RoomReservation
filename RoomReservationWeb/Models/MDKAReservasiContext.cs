@@ -45,11 +45,6 @@ namespace RoomReservationWeb.Models
                 entity.Property(e => e.UpdatedBy).HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.StatusFkNavigation)
-                    .WithMany(p => p.TblMRuangans)
-                    .HasForeignKey(d => d.StatusFk)
-                    .HasConstraintName("FK_tblM_Ruangan_tblM_Ruangan");
             });
 
             modelBuilder.Entity<TblMStatus>(entity =>
@@ -90,11 +85,6 @@ namespace RoomReservationWeb.Models
                 entity.Property(e => e.UpdatedBy).HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.RuanganFkNavigation)
-                    .WithMany(p => p.TblTReservasis)
-                    .HasForeignKey(d => d.RuanganFk)
-                    .HasConstraintName("FK_tblT_Reservasi_tblM_Ruangan");
             });
 
             OnModelCreatingPartial(modelBuilder);

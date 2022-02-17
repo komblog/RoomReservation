@@ -1,0 +1,78 @@
+﻿@model RoomReservationWeb.Dto.ListReservationDto
+
+@{
+    ViewData["Title"] = "AddOrEdit";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddOrEdit" onsubmit="return SaveReservation(this);" autocomplete="off">
+            <input asp-for="IdReservasi" type="hidden" />
+            <input asp-for="CreatedDate" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="NamaRuangan" class="control-label"></label>
+                        @{
+                            if (Model.IdReservasi == 0)
+                            {
+                                <select asp-for="IdRuangan" name="IdRuangan" class="form-control" asp-items="@ViewBag.RoomList"></select>
+                            }
+                            else
+                            {
+                               <select asp-for="IdRuangan" name="IdRuangan" class="form-control" disabled="disabled" asp-items="@ViewBag.RoomList"></select> 
+                            }
+                        }
+                        <span asp-validation-for="IdRuangan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="SubjectReservasi" class="control-label"></label>
+                        <input asp-for="SubjectReservasi" class="form-control" />
+                        <span asp-validation-for="SubjectReservasi" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="JamMulai" class="control-label"></label>
+                        <input asp-for="JamMulai" class="form-control" type="time" />
+                        <span asp-validation-for="JamMulai" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="JamSelesai" class="control-label"></label>
+                        <input asp-for="JamSelesai" class="form-control" type="time" />
+                        <span asp-validation-for="JamSelesai" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="TanggalReservasi" class="control-label"></label>
+                        <input asp-for="TanggalReservasi" class="form-control" type="date" />
+                        <span asp-validation-for="TanggalReservasi" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group d-grid">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
